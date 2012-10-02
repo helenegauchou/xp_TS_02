@@ -1,7 +1,7 @@
-function func_questions
+function [ID question_ID_subject part_number question_part_number task_type search_type block_number ISI number_of_trial] = func_questions
 
 global win0 winclear 
-global ID question_ID_subject part_number task_type search_type block_number ISI number_of_trial question_part_number
+%global ID question_ID_subject part_number task_type search_type block_number ISI number_of_trial question_part_number
 
 HideCursor;
 

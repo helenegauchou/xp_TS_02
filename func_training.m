@@ -1,18 +1,11 @@
-function training(task_type,search_type,ISI)
-
-global response_detection accuracy_detection response_time
-global global_accuracy_rate global_accuracy_rate_FEATURE global_accuracy_rate_CONJUNCTION
+function func_training(task_type,search_type,ISI)
 
 matrix_settings;
 global_settings;
 
 training = 0;
-global_accuracy_rate = 0;
-global_accuracy_rate_FEATURE = 0;
-global_accuracy_rate_CONJUNCTION = 0;
 
 while training == 0;
-    
     % Instructions reminder
     readytostart;
     
@@ -36,7 +29,8 @@ while training == 0;
             current_trial_parameters = MATRIX_block_training(current_trial,:);
         else
             current_trial_parameters = get_matrix_line(current_trial, MATRIX_block_training(:,:,settings.FEATURE_SEARCH), MATRIX_block_training(:,:,settings.CONJUNCTION_SEARCH));
-        end
+        end 
+        [response_detection accuracy_detection response_time ] = ...
         Exp(current_trial_parameters(1,1),...
             current_trial_parameters(1,2),...
             current_trial_parameters(1,3),...
@@ -58,7 +52,8 @@ while training == 0;
     end
     
     % POST BLOCK FEEDBACK *****************************************************
-    final_feedback(task_type,number_of_trial,MATRIX_data_training);
+     [global_accuracy_rate global_accuracy_rate_FEATURE global_accuracy_rate_CONJUNCTION] = ...
+         func_final_feedback(task_type,number_of_trial,MATRIX_data_training);
        
     if task_type == settings.BLOCKED_SEARCH
         if global_accuracy_rate >= 90

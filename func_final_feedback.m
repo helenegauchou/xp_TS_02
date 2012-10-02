@@ -1,7 +1,11 @@
-function final_feedback(task_type,number_of_trial,MATRIX_data)
+function [global_accuracy_rate global_accuracy_rate_FEATURE global_accuracy_rate_CONJUNCTION] = func_final_feedback(task_type,number_of_trial,MATRIX_data)
 
 global win0 winclear 
-global global_accuracy_rate global_accuracy_rate_FEATURE global_accuracy_rate_CONJUNCTION
+%global global_accuracy_rate global_accuracy_rate_FEATURE global_accuracy_rate_CONJUNCTION
+
+global_accuracy_rate = 0;
+global_accuracy_rate_FEATURE = 0;
+global_accuracy_rate_CONJUNCTION = 0;
 
 matrix_settings;
 global_settings;
@@ -191,8 +195,8 @@ elseif task_type == settings.MIXED_SEARCH
         l=l+1;
         
         matRT_HIT_FEATURE (1,l)= average_RT_FEATURE_HIT_setsize;
-        matRT_HIT_CONJUNCTION (1,l)= average_RT_FEATURE_CR_setsize;
-        matRT_CR_FEATURE (1,l)= average_RT_CONJUNCTION_HIT_setsize;
+        matRT_HIT_CONJUNCTION (1,l)= average_RT_CONJUNCTION_HIT_setsize;
+        matRT_CR_FEATURE (1,l)= average_RT_FEATURE_CR_setsize;
         matRT_CR_CONJUNCTION (1,l)= average_RT_CONJUNCTION_CR_setsize;
     end
     

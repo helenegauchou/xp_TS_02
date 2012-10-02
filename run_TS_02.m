@@ -1,18 +1,13 @@
 function run_TS_02
 
 global win0 win1 win2 winclear winCue winFeedback 
-global response_detection accuracy_detection
-global response_time response_time_log
-global excentricity quadrant
-
-global ID part_number task_type search_type block_number ISI number_of_trial question_ID_subject question_part_number
-
 
 HideCursor;
 
 matrix_settings;
 global_settings;
 
+% Creates on and offscreen windows
 win0 = Screen(0,'OpenWindow',settings.BACKGROUND_COLOR,settings.screenRect,settings.COLOR_DEPTH);
 win1 = Screen(win0,'OpenOffscreenWindow',settings.BACKGROUND_COLOR,settings.screenRect,settings.COLOR_DEPTH);
 win2 = Screen(win0,'OpenOffscreenWindow',settings.BACKGROUND_COLOR,settings.screenRect,settings.COLOR_DEPTH);
@@ -24,16 +19,16 @@ Screen(win0,'TextSize',settings.LETTER_SIZE);
 Screen(win0,'TextFont',settings.LETTER_FONT);
 
 % Displays QUESTIONS for experimenter *************************************
-func_questions;
+[ID question_ID_subject part_number question_part_number task_type search_type block_number ISI number_of_trial] = func_questions;
 
 % VISUAL SEARCH TASK ******************************************************
 % Instructions
 instruction(task_type,search_type,1);
 
-% % Training
-% if block_number == 1
-% training(task_type,search_type,ISI);
-% end
+% Training
+if block_number == 1
+func_training(task_type,search_type,ISI);
+end
 
 % Instructions reminder
 readytostart;
@@ -57,10 +52,10 @@ for current_trial = 1:number_of_trial;
     else
         current_trial_parameters = get_matrix_line(current_trial, matrix_block(:,:,settings.FEATURE_SEARCH), matrix_block(:,:,settings.CONJUNCTION_SEARCH));
     end
-    Exp(current_trial_parameters(1,1),...
-        current_trial_parameters(1,2),...
-        current_trial_parameters(1,3),...
-        ISI);
+    [response_detection accuracy_detection response_time response_time_log excentricity quadrant] = Exp(current_trial_parameters(1,1),...
+                                                                                                        current_trial_parameters(1,2),...
+                                                                                                        current_trial_parameters(1,3),...
+                                                                                                        ISI);
     if task_type == settings.MIXED_SEARCH
         if mod(current_trial,2)== 1
             trial_type = settings.SWITCH_TRIAL;
@@ -98,7 +93,7 @@ filename_csv = strcat( filename,'.csv');
 csvwrite(filename_csv,MATRIX_data);
 
 % POST BLOCK FEEDBACK *****************************************************
-final_feedback(task_type,number_of_trial,MATRIX_data);
+func_final_feedback(task_type,number_of_trial,MATRIX_data);
 
 % END screen **************************************************************
 Screen('CopyWindow', winclear, win0);
