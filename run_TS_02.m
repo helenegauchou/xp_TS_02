@@ -47,15 +47,19 @@ MATRIX_data = ones(number_of_trial,CONST_number_columns) * CONST_default_value;
 
 % Displays trials and retrieves data
 for current_trial = 1:number_of_trial;
+    
     if task_type == settings.BLOCKED_SEARCH
         current_trial_parameters = matrix_block(current_trial,:);
     else
         current_trial_parameters = get_matrix_line(current_trial, matrix_block(:,:,settings.FEATURE_SEARCH), matrix_block(:,:,settings.CONJUNCTION_SEARCH));
     end
-    [response_detection accuracy_detection response_time response_time_log excentricity quadrant] = Exp(current_trial_parameters(1,1),...
-                                                                                                        current_trial_parameters(1,2),...
-                                                                                                        current_trial_parameters(1,3),...
-                                                                                                        ISI);
+    
+    [response_detection accuracy_detection response_time response_time_log excentricity quadrant] =...
+    Exp(current_trial_parameters(1,1),...
+        current_trial_parameters(1,2),...
+        current_trial_parameters(1,3),...
+        ISI);
+    
     if task_type == settings.MIXED_SEARCH
         if mod(current_trial,2)== 1
             trial_type = settings.SWITCH_TRIAL;
